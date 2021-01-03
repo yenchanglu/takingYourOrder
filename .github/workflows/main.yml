@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+          os: [ubuntu-18.04]
+
+        fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: dependency (ubuntu)
+      if: matrix.os != 'macos-latest'
+      run: |
+        sudo apt-get -q update
+        sudo apt-get -qy install \
+            curl build-essential make cmake libc6-dev gcc-7 g++-7 gcc-multilib
+
+    - name: dependency (python3)
+      run: |
+          pip3 install setuptools
+          pip3 install numpy
+          pip3 install pybind11
+          pip3 install pytest
+
+    - name: Run pytest
+      run: |
+        make test
