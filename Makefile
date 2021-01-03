@@ -17,4 +17,4 @@ clean:
 	rm -rf *.so __pycache__ .pytest_cache performance.txt
 
 test: module
-	pytest
+	python3 unit_test.py
