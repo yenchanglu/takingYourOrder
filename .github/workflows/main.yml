@@ -26,10 +26,6 @@ jobs:
         fail-fast: false
 
     steps:
-
-    - name: setup
-      run: echo "::add-path::${HOME}/opt/conda/bin"
-
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
@@ -40,20 +36,21 @@ jobs:
         sudo apt-get -q update
         sudo apt-get -qy install \
             curl build-essential make cmake libc6-dev gcc-7 g++-7 gcc-multilib
+
     - name: dependency (conda+pip+custom)
       run: |
         curl -sSL -o miniconda.sh \
           https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
         bash miniconda.sh -b -p ${HOME}/opt/conda
         rm -rf miniconda.sh
-        export PATH="${HOME}/opt/conda/bin:$PATH"
+
         hash -r
         conda config --set channel_priority strict
         conda update --all --yes
-        conda install --yes pip python numpy scipy pytest pandas matplotlib mkl-include
+        conda install --yes pip python numpy scipy pytest pandas matplotlib
         pip install nbgitpuller sphinx-gallery notebook jupyterlab rise cxxfilt
         pip install https://github.com/aldanor/ipybind/tarball/master
-        export INSTALL_PREFIX=${INSTALL_PREFIX:-${HOME}/opt/conda}
+
         contrib/install.sh everything
 
     - name: Run pytest
