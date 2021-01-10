@@ -12,7 +12,9 @@ You can use the following command to checkout from repository:
 
 Use following commands for Installation:
 ``pip install pyttsx3``
+
 ``sudo apt-get update && sudo apt-get install espeak``
+
 ``sudo apt-get install python3-pyaudio``
 
 Problem to solve
@@ -28,7 +30,7 @@ Clerk doesn't need to enter orders into POS and announce the total, receive paym
 System architecture
 ===================
 
-.. image:: architecture.png
+.. image:: archt.png
 
 API description
 ===============
